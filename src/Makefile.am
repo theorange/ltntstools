@@ -14,8 +14,7 @@ endif
 AM_CFLAGS = -Wall -O3 -DVERSION=\"$(VERSION)\" -DPROG="\"$(PACKAGE)\"" -D_FILE_OFFSET_BITS=64 \
 	-D_DEFAULT_SOURCE \
 	-DGIT_VERSION=\"$(GIT_VERSION)\" \
-	-I../../ffmpeg/libavcodec \
-	-I../../ffmpeg -Wsign-compare
+	-Wsign-compare
 
 LDADD = -lpthread -lz -lm -lltntstools -lklvanc -lzvbi
 
@@ -28,17 +27,17 @@ if APPLE
   AM_LDFLAGS += -framework VideoToolbox -framework CoreFoundation -framework CoreVideo -framework CoreMedia
 endif
 
-AM_CFLAGS += -I../../target-root/usr/include -g
+AM_CFLAGS += -g
 if APPLE
 #AM_CFLAGS += ../../target-root/usr/lib/libjson-c.a
 endif
-LDADD += -L../../target-root/usr/lib -ldvbpsi
-LDADD += -L../../target-root/usr/lib -lavformat -lavutil -lz -lavcodec -lswresample -lswscale -lavutil -lbz2
+LDADD += -ldvbpsi
+LDADD += -lavformat -lavutil -lz -lavcodec -lswresample -lswscale -lavutil -lbz2 -lcurl
 LDADD += -lpcap -llzma
 LDADD += -lklscte35 -ldl
 LDADD += -lsrt -lcrypto
 if APPLE
-LDADD += -ljson-c -lcurl
+LDADD += -ljson-c
 endif
 if LINUX
 if DTAPI
@@ -47,7 +46,7 @@ endif
 #LDADD += -lmediainfo
 #LDADD += -lcurl
 if BUILD_STATIC
-LDADD += ../../target-root/usr/lib/libjson-c.a
+LDADD += -l:libjson-c.a
 endif
 #LDADD += -lrdkafka
 endif

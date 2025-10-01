@@ -1,0 +1,30 @@
+[submodule "deps/bitstream"]
+	path = deps/bitstream
+	url = https://code.videolan.org/videolan/bitstream.git
+[submodule "deps/MediaInfoLib"]
+	path = deps/MediaInfoLib
+	url = https://github.com/MediaArea/MediaInfoLib.git
+[submodule "deps/srt"]
+	path = deps/srt
+	url = https://github.com/Haivision/srt.git
+[submodule "libdvbpsi"]
+	path = libdvbpsi
+	url = https://code.videolan.org/videolan/libdvbpsi.git
+[submodule "deps/ffmpeg"]
+	path = deps/ffmpeg
+	url = https://git.ffmpeg.org/ffmpeg.git
+[submodule "deps/libdvbpsi"]
+	path = deps/libdvbpsi
+	url = https://code.videolan.org/videolan/libdvbpsi.git
+[submodule "deps/libklvanc"]
+	path = deps/libklvanc
+	url = https://github.com/LTNGlobal-opensource/libklvanc.git
+[submodule "deps/libklscte35"]
+	path = deps/libklscte35
+	url = https://github.com/LTNGlobal-opensource/libklscte35.git
+[submodule "deps/libltntstools"]
+	path = deps/libltntstools
+	url = https://github.com/LTNGlobal-opensource/libltntstools.git
+[submodule "deps/json-c"]
+	path = deps/json-c
+	url = https://github.com/json-c/json-c.git

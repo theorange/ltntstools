@@ -1,5 +1,15 @@
 #!/bin/bash
 
-export CFLAGS="-I$PWD/../ltntstools-libdvbpsi/root/include -I$PWD/../ltntstools-ffmpeg/root/include"
-export LDFLAGS="-L$PWD/../ltntstools-libdvbpsi/root/lib -I$PWD/../ltntstools-ffmpeg/root/lib"
-./configure --prefix=$HOME/target-root --enable-shared=no
+set -e
+
+PREFIX=${PREFIX:-$PWD/deps/target-root/usr}
+
+withntt=$(test -d deps/libntt && echo yes || echo no)
+withdtapi=$(test -d sdk-dektec/LinuxSDK && echo yes || echo no)
+
+export CFLAGS="-I${PREFIX}/include -I${PWD}/deps/ffmpeg"
+export LDFLAGS="-L${PREFIX}/lib -L${PREFIX}/lib64"
+test -f configure || ./autogen.sh --build
+./configure --prefix=${PREFIX} --enable-shared=no --enable-ntt=$withntt --enable-dtapi=$withdtapi
+make -j$JOBS V=1
+make install

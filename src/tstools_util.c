@@ -27,7 +27,9 @@ extern int stream_verifier(int argc, char *argv[]);
 extern int pes_inspector(int argc, char *argv[]);
 extern int bitrate_smoother(int argc, char *argv[]);
 extern int nielsen_inspector(int argc, char *argv[]);
+#ifdef HAVE_DTAPI
 extern int asi2ip(int argc, char *argv[]);
+#endif
 extern int smpte2038_inspector(int argc, char *argv[]);
 extern int ntt_inspector(int argc, char *argv[]);
 extern int srt_transmit(int argc, char *argv[]);
