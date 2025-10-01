@@ -12,6 +12,8 @@
 #include "parsers.h"
 #include "utils.h"
 
+extern void networkInterfaceList(); // missing from header <libltntstools/ltntstools.h>
+
 static int gRunning = 0;
 
 struct tool_context_s

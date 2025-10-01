@@ -29,7 +29,7 @@ endif
 
 AM_CFLAGS += -g
 if APPLE
-#AM_CFLAGS += ../../target-root/usr/lib/libjson-c.a
+#AM_CFLAGS += -l:libjson-c.a
 endif
 LDADD += -ldvbpsi
 LDADD += -lavformat -lavutil -lz -lavcodec -lswresample -lswscale -lavutil -lbz2 -lcurl
@@ -41,7 +41,7 @@ LDADD += -ljson-c
 endif
 if LINUX
 if DTAPI
-LDADD += ../../sdk-dektec/LinuxSDK/DTAPI/Lib/GCC4.8_CXX11_ABI0/DTAPI64.o
+LDADD += ../sdk-dektec/LinuxSDK/DTAPI/Lib/GCC7.5.0/DTAPI64.o
 endif
 #LDADD += -lmediainfo
 #LDADD += -lcurl

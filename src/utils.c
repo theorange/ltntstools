@@ -123,35 +123,6 @@ int networkInterfaceExistsByAddress(const char *ipaddress)
 	return exists;
 }
 
-void networkInterfaceList()
-{
-	/* Setup multicast on all IPV4 network interfaces, IPV6 interfaces are ignored */
-	struct ifaddrs *addrs;
-	int result = getifaddrs(&addrs);
-	if (result >= 0) {
-		const struct ifaddrs *cursor = addrs;
-		while (cursor != NULL) {
-			if (/* (cursor->ifa_flags & IFF_BROADCAST) && */ (cursor->ifa_flags & IFF_UP) &&
-				(cursor->ifa_addr) &&
-				(cursor->ifa_addr->sa_family == AF_INET)) {
-
-				char host[NI_MAXHOST];
-
-				int r = getnameinfo(cursor->ifa_addr,
-					cursor->ifa_addr->sa_family == AF_INET ? sizeof(struct sockaddr_in) : sizeof(struct sockaddr_in6),
-					host, NI_MAXHOST,
-					NULL, 0, NI_NUMERICHOST);
-				if (r == 0) {
-					printf("\t%s : %s\n", cursor->ifa_name, host);
-				}
-			}
-			cursor = cursor->ifa_next;
-		}
-	}
-
-	freeifaddrs(addrs);
-}
-
 int network_addr_compare(
 	struct iphdr *src_iphdr, struct udphdr *src_udphdr,
 	struct iphdr *dst_iphdr, struct udphdr *dst_udphdr)
