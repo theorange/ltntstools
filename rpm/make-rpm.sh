@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -ev
+
 APP=ltntstools
 SPECFILE=$APP.spec
 
@@ -17,31 +19,37 @@ GIT_VERSION=`git describe --abbrev=8 | sed 's!-.*!!g'`
 
 cat $SPECFILE  | sed "s/^Version.*$/Version:\t${GIT_VERSION}/g" > ~/rpmbuild/SPECS/$SPECFILE
 
-TARGET_DIR=~/rpmbuild/BUILDROOT/$APP-$GIT_VERSION-1.x86_64
+DESTDIR=~/rpmbuild/BUILDROOT/$APP-$GIT_VERSION-1.x86_64
 
-mkdir -p $TARGET_DIR/usr/local/bin
-cp ../src/tstools_util $TARGET_DIR/usr/local/bin
-strip $TARGET_DIR/usr/local/bin/tstools_util
+prefix=/usr
+bindir=${prefix}/bin
+libdir=${prefix}/lib64
 
-mkdir -p $TARGET_DIR/usr/local/share/man/man8
-cp ../man/*.8 $TARGET_DIR/usr/local/share/man/man8
+mkdir -p $DESTDIR/${prefix}/{bin,lib64}
+cp ../src/tstools_util $DESTDIR${bindir}
+# strip $DESTDIR/usr/bin/tstools_util # rpm should do this for you
 
-mkdir -p $TARGET_DIR/usr/local/lib-ltntstools
-cp ../../target-root/usr/lib/libdvbpsi.so.10    $TARGET_DIR/usr/local/lib-ltntstools/libdvbpsi.so.10
-cp ../../target-root/usr/lib/libklscte35.so.0   $TARGET_DIR/usr/local/lib-ltntstools/libklscte35.so.0
-cp ../../target-root/usr/lib/libltntstools.so.0 $TARGET_DIR/usr/local/lib-ltntstools/libltntstools.so.0
-cp ../../target-root/usr/lib64/libsrt.so.1.4    $TARGET_DIR/usr/local/lib-ltntstools/libsrt.so.1.4
-cp ../../target-root/usr/lib/libjson-c.so.4     $TARGET_DIR/usr/local/lib-ltntstools/libjson-c.so.4
-cp ../../target-root/usr/lib/libzvbi.so.0       $TARGET_DIR/usr/local/lib-ltntstools/libzvbi.so.0
-cp ../../target-root/usr/lib/libklvanc.so.0     $TARGET_DIR/usr/local/lib-ltntstools/libklvanc.so.0
-cp ../../target-root/usr/lib/libavformat.so.58  $TARGET_DIR/usr/local/lib-ltntstools/libavformat.so.58
-cp ../../target-root/usr/lib/libavutil.so.56    $TARGET_DIR/usr/local/lib-ltntstools/libavutil.so.56
-cp ../../target-root/usr/lib/libavcodec.so.58   $TARGET_DIR/usr/local/lib-ltntstools/libavcodec.so.58
-cp ../../target-root/usr/lib/libswresample.so.3 $TARGET_DIR/usr/local/lib-ltntstools/libswresample.so.3
-cp ../../target-root/usr/lib/libswscale.so.5    $TARGET_DIR/usr/local/lib-ltntstools/libswscale.so.5
-cp ../../target-root/usr/lib/libntt.so.0        $TARGET_DIR/usr/local/lib-ltntstools/libntt.so.0
+mkdir -p $DESTDIR${prefix}/share/man/man8 
+cp ../man/*.8 $DESTDIR${prefix}/share/man/man8
 
-pushd $TARGET_DIR/usr/local/bin
+mkdir -p $DESTDIR${libdir}/ltntstools/
+cp ../deps/target-root/usr/lib/libdvbpsi.so.10    $DESTDIR${libdir}/ltntstools/libdvbpsi.so.10
+cp ../deps/target-root/usr/lib/libklscte35.so.0   $DESTDIR${libdir}/ltntstools/libklscte35.so.0
+cp ../deps/target-root/usr/lib/libltntstools.so.0 $DESTDIR${libdir}/ltntstools/libltntstools.so.0
+cp ../deps/target-root/usr/lib64/libsrt.so.1.5    $DESTDIR${libdir}/ltntstools/libsrt.so.1.5
+cp ../deps/target-root/usr/lib/libjson-c.so.4     $DESTDIR${libdir}/ltntstools/libjson-c.so.4
+# cp ../deps/target-root/usr/lib/libzvbi.so.0       $DESTDIR${libdir}/ltntstools/libzvbi.so.0
+cp ../deps/target-root/usr/lib/libklvanc.so.0     $DESTDIR${libdir}/ltntstools/libklvanc.so.0
+cp ../deps/target-root/usr/lib/libavformat.so.58  $DESTDIR${libdir}/ltntstools/libavformat.so.58
+cp ../deps/target-root/usr/lib/libavutil.so.56    $DESTDIR${libdir}/ltntstools/libavutil.so.56
+cp ../deps/target-root/usr/lib/libavcodec.so.58   $DESTDIR${libdir}/ltntstools/libavcodec.so.58
+cp ../deps/target-root/usr/lib/libswresample.so.3 $DESTDIR${libdir}/ltntstools/libswresample.so.3
+cp ../deps/target-root/usr/lib/libswscale.so.5    $DESTDIR${libdir}/ltntstools/libswscale.so.5
+if [ -f ../deps/target-root/usr/lib/libntt.so.0 ]; then
+	cp ../deps/target-root/usr/lib/libntt.so.0        $DESTDIR${libdir}/ltntstools/libntt.so.0
+fi
+
+pushd $DESTDIR${bindir}
 	for BIN in `./tstools_util | grep ^tstools`
 	do
 		ln -sf tstools_util $BIN

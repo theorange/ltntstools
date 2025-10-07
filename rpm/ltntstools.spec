@@ -19,48 +19,49 @@ Requires:	ncurses
 A tool to capture, inspect or monitor MPEG-TS files and streams.
 
 %files
-/usr/local/bin/tstools_util
-/usr/local/bin/tstools_clock_inspector
-/usr/local/bin/tstools_nic_monitor
-/usr/local/bin/tstools_pat_inspector
-/usr/local/bin/tstools_pcap2ts
-/usr/local/bin/tstools_pid_drop
-/usr/local/bin/tstools_pmt_inspector
-/usr/local/bin/tstools_si_inspector
-/usr/local/bin/tstools_rtmp_analyzer
-/usr/local/bin/tstools_si_streammodel
-/usr/local/bin/tstools_tr101290_analyzer
-/usr/local/bin/tstools_ffmpeg_metadata
-/usr/local/bin/tstools_scte35_inspector
-/usr/local/bin/tstools_igmp_join
-/usr/local/bin/tstools_slicer
-/usr/local/bin/tstools_sei_unregistered
-/usr/local/bin/tstools_stream_verifier
-/usr/local/bin/tstools_pes_inspector
-/usr/local/bin/tstools_iat_tester
-/usr/local/bin/tstools_bitrate_smoother
-/usr/local/bin/tstools_nielsen_inspector
-/usr/local/bin/tstools_asi2ip
-/usr/local/bin/tstools_smpte2038_inspector
-/usr/local/bin/tstools_srt_transmit
-#/usr/local/bin/tstools_ntt_inspector
-/usr/local/bin/tstools_sei_latency_inspector
-/usr/local/bin/tstools_caption_analyzer
-/usr/local/share/man/man8/tstools_pcapts.8
-/usr/local/share/man/man8/tstools_ffmpeg_metadata.8
-/usr/local/lib-ltntstools/libdvbpsi.so.10
-/usr/local/lib-ltntstools/libklscte35.so.0
-/usr/local/lib-ltntstools/libltntstools.so.0
-/usr/local/lib-ltntstools/libsrt.so.1.4
-/usr/local/lib-ltntstools/libjson-c.so.4
-/usr/local/lib-ltntstools/libzvbi.so.0
-/usr/local/lib-ltntstools/libklvanc.so.0
-/usr/local/lib-ltntstools/libavformat.so.58
-/usr/local/lib-ltntstools/libavutil.so.56
-/usr/local/lib-ltntstools/libavcodec.so.58
-/usr/local/lib-ltntstools/libswresample.so.3
-/usr/local/lib-ltntstools/libswscale.so.5
-#/usr/local/lib-ltntstools/libntt.so.0
+%{_bindir}/tstools_util
+%{_bindir}/tstools_clock_inspector
+%{_bindir}/tstools_nic_monitor
+%{_bindir}/tstools_pat_inspector
+%{_bindir}/tstools_pcap2ts
+%{_bindir}/tstools_pid_drop
+%{_bindir}/tstools_pmt_inspector
+%{_bindir}/tstools_si_inspector
+%{_bindir}/tstools_rtmp_analyzer
+%{_bindir}/tstools_si_streammodel
+%{_bindir}/tstools_tr101290_analyzer
+%{_bindir}/tstools_ffmpeg_metadata
+%{_bindir}/tstools_scte35_inspector
+%{_bindir}/tstools_igmp_join
+%{_bindir}/tstools_slicer
+%{_bindir}/tstools_sei_unregistered
+%{_bindir}/tstools_stream_verifier
+%{_bindir}/tstools_pes_inspector
+%{_bindir}/tstools_iat_tester
+%{_bindir}/tstools_bitrate_smoother
+%{_bindir}/tstools_nielsen_inspector
+%{_bindir}/tstools_asi2ip
+%{_bindir}/tstools_smpte2038_inspector
+%{_bindir}/tstools_srt_transmit
+%{_bindir}/tstools_input_selector
+
+
+%{_bindir}/tstools_sei_latency_inspector
+%{_bindir}/tstools_caption_analyzer
+%{_mandir}/man8/tstools_pcapts.8
+%{_mandir}/man8/tstools_ffmpeg_metadata.8
+%{_libdir}/ltntstools/libdvbpsi.so.10
+%{_libdir}/ltntstools/libklscte35.so.0
+%{_libdir}/ltntstools/libltntstools.so.0
+%{_libdir}/ltntstools/libsrt.so.1.5
+%{_libdir}/ltntstools/libjson-c.so.4
+%{_libdir}/ltntstools/libklvanc.so.0
+%{_libdir}/ltntstools/libavformat.so.58
+%{_libdir}/ltntstools/libavutil.so.56
+%{_libdir}/ltntstools/libavcodec.so.58
+%{_libdir}/ltntstools/libswresample.so.3
+%{_libdir}/ltntstools/libswscale.so.5
+%{_libdir}/ltntstools/libntt.so.0
 
 %changelog
 * Mon Sep  8 2025 Steven Toth <steven.toth@ltnglobal.com> 
@@ -183,7 +184,7 @@ A tool to capture, inspect or monitor MPEG-TS files and streams.
   tstools_clock_inspector: Added -Z to supress NEW timing violation messages
   tstools_clock_inspector: Added -L to optional product PTS to SCR linear trending report.
 
-* Wed Aug 20 2024 Steven Toth <steven.toth@ltnglobal.com> 
+* Tue Aug 20 2024 Steven Toth <steven.toth@ltnglobal.com> 
 - v1.31.1
   tstools_nic_monitor: bugfix. Curl http post mechanism would leak sockets
   tstools_tr101290_analyzer: Added PCAP support
@@ -328,7 +329,7 @@ A tool to capture, inspect or monitor MPEG-TS files and streams.
   tstools_nic_monitor: Fix a memory caching issue introduced in v1.17. Extended use would exhaust system ram.
   tstools_igmp_join: Overhaul tool, reduced cpu usage and support up to 64 joins on a single nic.
 
-* Thu Nov  2 2022 Steven Toth <steven.toth@ltnglobal.com> 
+* Wed Nov  2 2022 Steven Toth <steven.toth@ltnglobal.com> 
 - v1.19.0
   tstools_bitrate_smoother: Adjust console help example command, remove -b and replace with -l.
   tstools_bitrate_smoother: Feature. Add option -L to terminate process after N seconds of input LOS.
@@ -381,7 +382,6 @@ A tool to capture, inspect or monitor MPEG-TS files and streams.
   tstools_asi2ip: Fix compiler new compiler warnings re set but unused vars
   tstools_ffmpeg_metadata: Fix new compiler warning re signed vs unused usage. Removed unused signal handler
 
-%changelog
 * Thu Sep  1 2022 Steven Toth <steven.toth@ltnglobal.com> 
 - v1.16.0
   tstools_nic_monitor: Feature. Added support for an SRT input urls, monitor an SRT feed. -i srt://1.2.3.4:5678
@@ -609,7 +609,7 @@ A tool to capture, inspect or monitor MPEG-TS files and streams.
   tstools_nic_monitor: Change the bitrate calculator to use a truly high-resolution measurement.
   tstools_udp_capture: Fix an issue with -t where the tool didn't terminate after N seconds.
 
-* Mon Jan  1 2020 Steven Toth <stoth@ltnglobal.com> 
+* Wed Jan  1 2020 Steven Toth <stoth@ltnglobal.com> 
 - v1.5.0
   tstools_nic_monitor: Added - detect MPEG-TS packets on unicast addresses.
 

@@ -18,3 +18,4 @@ ltmain.sh
 m4/
 missing
 deps/target-root
+deps/LinuxSDK

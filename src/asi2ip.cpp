@@ -15,7 +15,7 @@
 #include <libltntstools/ltntstools.h>
 #include "ffmpeg-includes.h"
 
-#include "../../sdk-dektec/LinuxSDK/DTAPI/Include/DTAPI.h"
+#include "../../deps/LinuxSDK/DTAPI/Include/DTAPI.h"
 
 #define DEFAULT_PORT 1
 #define DEFAULT_CARD_MODEL 2172

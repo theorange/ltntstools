@@ -17,7 +17,7 @@
 int ISO8601_UTC_CreateTimestamp(struct timeval *tv, char **dst);
 
 int character_replace(char *str, char src, char dst);
-int networkInterfaceList();
+void networkInterfaceList();
 int  networkInterfaceExistsByName(const char *ifname);
 int  networkInterfaceExistsByAddress(const char *ipaddress);
 

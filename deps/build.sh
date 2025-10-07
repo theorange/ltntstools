@@ -13,8 +13,7 @@ export PKG_CONFIG_PATH="${PREFIX}/lib64/pkgconfig"
 if [ ! -d LinuxSDK ]; then
   version=v2025.09.0
   test -f LinuxSDK_${version}.tar.gz || curl -LO https://www.dektec.com/products/SDK/DTAPI/Downloads/LinuxSDK_${version}.tar.gz
-	tar zxf LinuxSDK_${version}.tar.gz
-	ln -sf . ../sdk-dektec
+	tar zxf LinuxSDK_${version}.tar.gz	
 fi
 
 # Unpack the nielsen SDK, if it's available.
@@ -34,25 +33,30 @@ if [ -f $NIELSEN_SDK ]; then
 fi
 
 
-pushd json-c
-  if [ ! -f .skip ]; then
-    ./autogen.sh
-    ./configure --prefix=${PREFIX} --enable-shared=no
-    make -j$JOBS
-    make install
-    touch .skip
-  fi
+pushd json-c	
+	./autogen.sh
+	./configure --prefix=${PREFIX} --enable-shared=yes
+	make -j$JOBS
+	make install
 popd
 
+#
+# pushd zvbi
+# 	./autogen.sh
+# 	./configure --prefix=${PREFIX} --enable-shared=yes
+#	make -j$JOBS
+#	make install
+# popd
+
 pushd srt
-	./configure --enable-static=ON --enable-shared=OFF --prefix=${PREFIX}
+	./configure --enable-static=no --enable-shared=yes --prefix=${PREFIX}
 	make -j8
 	make install
 popd
 
 pushd MediaInfoLib/Project/GNU/Library
 	./autogen.sh
-	./configure --enable-shared=no --enable-static=yes --prefix=${PREFIX}
+	./configure --enable-shared=yes --enable-static=yes --prefix=${PREFIX}
 	make -j$JOBS
 	make install
 popd
@@ -65,29 +69,30 @@ popd
 pushd libdvbpsi
   sed -i -e "/for v in 15 14 13 12 11 10 9 8 7 6 5; do/s|15|16 15|" bootstrap
 	./bootstrap
-	./configure --prefix=${PREFIX} --enable-shared=no
+	./configure --prefix=${PREFIX} --enable-shared=yes
 	make -j$JOBS
 	make install
 popd
 
 pushd libklvanc
 	./autogen.sh --build
-	./configure --prefix=${PREFIX} --enable-shared=no
+	./configure --prefix=${PREFIX} --enable-shared=yes
 	make -j$JOBS
 	make install
 popd
 
 pushd libklscte35
 	./autogen.sh --build
-	./configure --prefix=${PREFIX} --enable-shared=no
+	./configure --prefix=${PREFIX} --enable-shared=yes
 	make -j$JOBS
 	make install
 popd
 
+git clone --branch main git@git.ltnglobal.com:video/libntt.git || :
 if [ -d libntt ]; then
   pushd libntt
     ./autogen.sh --build
-    ./configure --prefix=${PREFIX}
+    ./configure --prefix=${PREFIX} --enable-shared=yes
     make -j$JOBS
     make install
   popd
@@ -95,16 +100,16 @@ fi
 
 pushd ffmpeg
 #	export LDFLAGS="$LDFLAGS -lcrypto -lm -lsrt"
-	./configure --prefix=${PREFIX} --disable-iconv --enable-static \
+	./configure --prefix=${PREFIX} --disable-iconv --enable-shared \
 		--disable-audiotoolbox --disable-videotoolbox --disable-avfoundation \
-		--enable-libsrt --pkg-config-flags="--static"
+		--enable-libsrt
 	make -j$JOBS
 	make install
 popd
 
 pushd libltntstools
 	./autogen.sh --build
-	./configure --prefix=${PREFIX} --enable-shared=no
+	./configure --prefix=${PREFIX} --enable-shared=yes
 	make -j$JOBS
 	make install
 popd

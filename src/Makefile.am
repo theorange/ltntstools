@@ -4,7 +4,7 @@ GIT_VERSION := $(shell git describe --abbrev=8 --dirty --always --tags)
 
 if LINUX
 if BUILD_SHARED
-AM_LDFLAGS  = -Wl,-rpath='$$ORIGIN/../lib-ltntstools' -Wl,-z,origin
+AM_LDFLAGS  = -Wl,-rpath='$$ORIGIN/../lib64/ltntstools' -Wl,-z,origin
 AM_LDFLAGS += $(shell pkg-config --libs srt libltntstools json-c libklscte35 zvbi-0.2 libklvanc)
 AM_LDFLAGS += $(shell pkg-config --libs libavformat libavutil libavcodec libswresample libswscale)
 AM_LDFLAGS += $(shell pkg-config --libs libcurl)
@@ -41,13 +41,11 @@ LDADD += -ljson-c
 endif
 if LINUX
 if DTAPI
-LDADD += ../sdk-dektec/LinuxSDK/DTAPI/Lib/GCC7.5.0/DTAPI64.o
+LDADD += ../deps/LinuxSDK/DTAPI/Lib/GCC7.5.0/DTAPI64.o
 endif
 #LDADD += -lmediainfo
 #LDADD += -lcurl
-if BUILD_STATIC
-LDADD += -l:libjson-c.a
-endif
+LDADD += -ljson-c
 #LDADD += -lrdkafka
 endif
 if NTT
@@ -121,6 +119,7 @@ SRC += audioanalyzer.c
 SRC += nielsen-bindings.cpp
 SRC += golomb.c
 SRC += source-rcts.c
+SRC += input_selector.c
 #SRC += mpts.c
 
 bin_PROGRAMS  = tstools_util
@@ -154,6 +153,7 @@ LINKBINS += tstools_ntt_inspector
 endif
 LINKBINS += tstools_sei_latency_inspector
 LINKBINS += tstools_caption_analyzer
+LINKBINS += tstools_input_selector
 #LINKBINS += tstools_mpts
 
 tstools_util_SOURCES = $(SRC)
