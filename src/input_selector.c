@@ -447,9 +447,11 @@ static void *thread_packet_rx(void *p)
 		}
 
 		bool ok = true;
+		int bytes_read = 0;
 		for (int i = 0; i < ctx->input_count; ++i) {
 			int rlen = tool_input_read(ctx->inputs[i]);
 			if (rlen > 0) {
+				bytes_read += rlen;
 				if (tool_process_input(ctx, i) < 0) {
 					ok = false;
 					break;
@@ -463,6 +465,10 @@ static void *thread_packet_rx(void *p)
 		}
 
 		if (!ok) break;
+
+		if (!bytes_read) {
+			usleep(1000);  // save some cycles, easier than switching to poll().
+		}
 
 		now = time(0);
 		if (bannerPrint + (60 * 60 * 24) < now) {
